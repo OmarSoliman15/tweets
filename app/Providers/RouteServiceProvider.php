@@ -83,13 +83,5 @@ class RouteServiceProvider extends ServiceProvider
             ->as('api.')
             ->namespace($this->apiControllersNamespace)
             ->group(base_path('routes/api.php'));
-
-        Route::prefix('api/auth')
-            ->as('api.auth.')
-            ->namespace($this->apiControllersNamespace)
-            ->group(function () {
-                Route::post('login', 'Auth\LoginController@login')->name('login');
-                Route::post('register', 'Auth\RegisterController@register')->name('register');
-            });
     }
 }

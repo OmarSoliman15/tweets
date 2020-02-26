@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,6 +13,8 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::post('auth/login', 'Auth\LoginController@login')->name('auth.login');
+Route::post('auth/register', 'Auth\RegisterController@register')->name('auth.register');
 
 Route::apiResource('tweets', 'TweetController')->except('update');
 Route::post('users/{user}/follow', 'FollowingController@follow')->name('users.follow');

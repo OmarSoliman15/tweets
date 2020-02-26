@@ -8,14 +8,13 @@ use Carbon\Carbon;
 class UserObserver
 {
     /**
-     * Handle the user "created" event.
+     * Handle the user "creating" event.
      *
      * @param  \App\User  $user
      * @return void
      */
-    public function created(User $user)
+    public function creating(User $user)
     {
         $user->age = Carbon::parse($user->date_of_birth)->diffInYears();
-        $user->save();
     }
 }
