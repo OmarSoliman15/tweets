@@ -67,8 +67,8 @@ class User extends Authenticatable implements HasMedia
      */
     public function isFollowing()
     {
-        $id = auth('api')->id() ?: auth()->id();
+        $authId = auth('api')->id() ?: auth()->id();
 
-        return $this->followers()->where('user_id', $id)->exists();
+        return $this->followers()->where('user_id', $authId)->exists();
     }
 }

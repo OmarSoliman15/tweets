@@ -13,9 +13,8 @@ class TweetsTest extends TestCase
     {
         $this->be($user = factory(User::class)->create(), 'api');
 
-        factory(Tweet::class)->create([
-            'user_id' => $user->id
-        ]);
+        $tweet = factory(Tweet::class)->create();
+        $this->postJson(route('api.users.follow', $tweet->user));
 
         $response = $this->get(route('api.tweets.index'));
 

@@ -12,7 +12,6 @@ class Tweet extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id',
         'body',
     ];
 

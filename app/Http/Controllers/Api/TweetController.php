@@ -6,6 +6,7 @@ use App\Http\Requests\TweetRequest;
 use App\Http\Resources\TweetResource;
 use App\Http\Controllers\Controller;
 use App\Repositories\Repository;
+use App\Repositories\TweetRepository;
 use App\Tweet;
 
 class TweetController extends Controller
@@ -23,7 +24,7 @@ class TweetController extends Controller
     {
         $this->middleware('auth:api');
 
-        $this->model = new Repository($tweet);
+        $this->model = new TweetRepository($tweet);
     }
 
     /**
@@ -77,7 +78,7 @@ class TweetController extends Controller
     {
         $this->authorize('delete', $tweet);
 
-        $tweet->delete();
+        $this->model->delete($tweet->id);
 
         return response()->json([
             'message' => trans('tweets.messages.deleted'),
