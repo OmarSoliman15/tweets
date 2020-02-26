@@ -17,6 +17,12 @@ class RouteServiceProvider extends ServiceProvider
     protected $namespace = 'App\Http\Controllers';
 
     /**
+     * This namespace is applied to your api controller routes.
+     *
+     * @var string
+     */
+    protected $apiControllersNamespace = 'App\Http\Controllers\Api';
+    /**
      * The path to the "home" route for your application.
      *
      * @var string
@@ -59,8 +65,8 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::middleware('web')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/web.php'));
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
     }
 
     /**
@@ -73,8 +79,17 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiRoutes()
     {
         Route::prefix('api')
-             ->middleware('api')
-             ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));
+            ->middleware('throttle:5,30')
+            ->as('api.')
+            ->namespace($this->apiControllersNamespace)
+            ->group(base_path('routes/api.php'));
+
+        Route::prefix('api/auth')
+            ->as('api.auth.')
+            ->namespace($this->apiControllersNamespace)
+            ->group(function () {
+                Route::post('login', 'Auth\LoginController@login')->name('login');
+                Route::post('register', 'Auth\RegisterController@register')->name('register');
+            });
     }
 }
