@@ -14,6 +14,7 @@ class Structure
      */
     protected static $registeredStructures = [
         \App\User::class => \Tests\Support\Structures\UserStructure::class,
+        \App\Tweet::class => \Tests\Support\Structures\TweetStructure::class,
     ];
 
     /**

@@ -11,7 +11,8 @@ class AuthenticationTest extends TestCase
 {
     use InteractsWithPassport;
 
-    public function test_guest_can_register()
+    /** @test */
+    public function a_guest_can_register()
     {
         $response = $this->postJson(route('api.auth.register'), [
             'name' => 'test',
@@ -29,7 +30,8 @@ class AuthenticationTest extends TestCase
         $this->assertEquals(1, User::count());
     }
 
-    public function test_user_can_login()
+    /** @test */
+    public function a_user_can_login()
     {
         factory(User::class)->create([
             'email' => 'test@test.com',
