@@ -14,3 +14,5 @@ use Illuminate\Http\Request;
 */
 
 Route::apiResource('tweets', 'TweetController')->except('update');
+Route::post('users/{user}/follow', 'FollowingController@follow')->name('users.follow');
+Route::post('users/{user}/unfollow', 'FollowingController@unfollow')->name('users.unfollow');

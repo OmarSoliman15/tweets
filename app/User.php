@@ -39,4 +39,36 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasMany(Tweet::class);
     }
+
+    /**
+     * return following of this user.
+     *
+     * @return mixed
+     */
+    public function following()
+    {
+        return $this->belongsToMany(User::class, 'followings', 'user_id', 'follower_id')->withTimestamps();
+    }
+
+    /**
+     * return follower of this user.
+     *
+     * @return mixed
+     */
+    public function follower()
+    {
+        return $this->belongsToMany(User::class, 'followings', 'follower_id', 'user_id')->withTimestamps();
+    }
+
+    /**
+     * Determine whether the authenticated user following the user.
+     *
+     * @return bool
+     */
+    public function isFollowing()
+    {
+        $id = auth('api')->id() ?: auth()->id();
+
+        return $this->follower()->where('user_id', $id)->exists();
+    }
 }
