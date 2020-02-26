@@ -19,6 +19,7 @@ class UserStructure implements ResourceStracture
             'email',
             'date_of_birth',
             'age',
+            'is_following',
             'image'
         ];
     }

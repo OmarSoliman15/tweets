@@ -45,7 +45,7 @@ class User extends Authenticatable implements HasMedia
      *
      * @return mixed
      */
-    public function following()
+    public function followings()
     {
         return $this->belongsToMany(User::class, 'followings', 'user_id', 'follower_id')->withTimestamps();
     }
@@ -55,7 +55,7 @@ class User extends Authenticatable implements HasMedia
      *
      * @return mixed
      */
-    public function follower()
+    public function followers()
     {
         return $this->belongsToMany(User::class, 'followings', 'follower_id', 'user_id')->withTimestamps();
     }
@@ -69,6 +69,6 @@ class User extends Authenticatable implements HasMedia
     {
         $id = auth('api')->id() ?: auth()->id();
 
-        return $this->follower()->where('user_id', $id)->exists();
+        return $this->followers()->where('user_id', $id)->exists();
     }
 }
