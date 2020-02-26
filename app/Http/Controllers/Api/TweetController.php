@@ -5,28 +5,48 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\TweetRequest;
 use App\Http\Resources\TweetResource;
 use App\Http\Controllers\Controller;
+use App\Repositories\Repository;
 use App\Tweet;
 
 class TweetController extends Controller
 {
     /**
-     * TweetController constructor.
+     * @var Repository
      */
-    public function __construct()
+    protected $model;
+
+    /**
+     * TweetController constructor.
+     * @param Tweet $tweet
+     */
+    public function __construct(Tweet $tweet)
     {
         $this->middleware('auth:api');
+
+        $this->model = new Repository($tweet);
     }
 
     /**
-     * Display list of all tweets.
+     * Display list of all tweets for this user.
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        $tweets = Tweet::paginate();
+        $tweets = $this->model->all();
 
         return TweetResource::collection($tweets);
+    }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function show($id)
+    {
+        $tweet = $this->model->show($id);
+
+        return new TweetResource($tweet);
     }
 
     /**
@@ -37,7 +57,11 @@ class TweetController extends Controller
      */
     public function store(TweetRequest $request)
     {
-        $tweet = auth()->user()->tweets()->create($request->all());
+        $request->merge([
+            'user_id' => auth()->user()->id
+        ]);
+
+        $tweet = $this->model->create($request->all());
 
         return new TweetResource($tweet);
     }
