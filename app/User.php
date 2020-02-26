@@ -29,4 +29,14 @@ class User extends Authenticatable implements HasMedia
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * return tweets of this user.
+     *
+     * @return mixed
+     */
+    public function tweets()
+    {
+        return $this->hasMany(Tweet::class);
+    }
 }

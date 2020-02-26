@@ -39,7 +39,7 @@ class RegisterController extends Controller
      * create new owner account.
      *
      * @param Request $request
-     * @return mixed
+     * @return UserResource
      * @throws \Illuminate\Validation\ValidationException
      */
     public function register(Request $request)

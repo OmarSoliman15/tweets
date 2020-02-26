@@ -24,6 +24,13 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
+     * Get the number of minutes to throttle for.
+     *
+     * @var int
+     */
+    protected $decayMinutes = 30;
+
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -36,7 +43,7 @@ class LoginController extends Controller
     /**
      * Send the response after the user was authenticated.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return UserResource
      * @throws \Illuminate\Validation\ValidationException
      */

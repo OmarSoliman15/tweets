@@ -146,6 +146,15 @@ return [
     |
     */
 
-    'attributes' => [],
-
+    'attributes' => [
+        'attributes' => [
+            'name' => 'Name',
+            'email' => 'Email',
+            'date_or_birth' => 'Date of birth',
+            'age' => 'Age',
+            'password' => 'Password',
+            'password_confirmation' => 'Password confirmation',
+            'body' => 'Body',
+        ],
+    ],
 ];
