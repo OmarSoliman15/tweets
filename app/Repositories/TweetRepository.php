@@ -15,7 +15,7 @@ class TweetRepository extends Repository
         /** @var User $auth */
         $auth = auth('api')->user() ?: auth()->user();
 
-        return $auth->followingTweets()->paginate();
+        return $auth->followingTweets()->latest()->paginate();
     }
 
     /**

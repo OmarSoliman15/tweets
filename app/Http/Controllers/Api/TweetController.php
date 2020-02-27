@@ -12,12 +12,13 @@ use App\Tweet;
 class TweetController extends Controller
 {
     /**
-     * @var Repository
+     * @var TweetRepository
      */
     protected $model;
 
     /**
      * TweetController constructor.
+     *
      * @param Tweet $tweet
      */
     public function __construct(Tweet $tweet)
@@ -40,6 +41,8 @@ class TweetController extends Controller
     }
 
     /**
+     * Display specific resource from the disk
+     *
      * @param $id
      * @return mixed
      */
