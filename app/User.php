@@ -47,7 +47,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function followings()
     {
-        return $this->belongsToMany(User::class, 'followings', 'user_id', 'follower_id')
+        return $this->belongsToMany(User::class, 'followings', 'user_id', 'following_id')
             ->using(Follow::class)
             ->withTimestamps();
     }
@@ -59,7 +59,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function followers()
     {
-        return $this->belongsToMany(User::class, 'followings', 'follower_id', 'user_id')
+        return $this->belongsToMany(User::class, 'followings', 'following_id', 'user_id')
             ->using(Follow::class)
             ->withTimestamps();
     }
@@ -69,7 +69,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function followingTweets()
     {
-        return $this->hasManyThrough(Tweet::class, Follow::class, 'user_id', 'user_id', 'id', 'follower_id');
+        return $this->hasManyThrough(Tweet::class, Follow::class, 'user_id', 'user_id', 'id', 'following_id');
     }
 
     /**
@@ -101,7 +101,7 @@ class User extends Authenticatable implements HasMedia
      */
     public function unfollow(User $user)
     {
-        if ($follow = $this->followings()->where('follower_id', $user->id)->first()) {
+        if ($follow = $this->followings()->where('following_id', $user->id)->first()) {
             $this->followings()->detach($user);
         }
     }
