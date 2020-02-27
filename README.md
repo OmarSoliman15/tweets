@@ -36,13 +36,20 @@ php artisan key:generate
 
 Now you have a ready to use clone of the application.
 
-## How To?
-
 ### Running Automated Tests
 > Note: The project is covered by Feature (API) tests.
 
 Run the following command to run the tests:
 ```bash
 ./vendor/bin/phpunit
+```
+
+
+### Use The API
+
+You can use the `tweets` service that you can register,
+simply make a post request to the following endpoint:
+```
+http://localhost:8000/api/auth/register
 ```
 
