@@ -58,11 +58,9 @@ class TweetController extends Controller
      */
     public function store(TweetRequest $request)
     {
-        $request->merge([
+        $tweet = $this->model->create(array_merge($request->all(), [
             'user_id' => auth()->user()->id
-        ]);
-
-        $tweet = $this->model->create($request->all());
+        ]));
 
         return new TweetResource($tweet);
     }

@@ -36,12 +36,9 @@ class FollowTest extends TestCase
 
         $user = factory(User::class)->create();
 
-        $response = $this->postJson(route('api.users.follow', $user));
-
-        $response->assertSuccessful();
+        $auth->follow($user);
 
         $this->assertEquals(1, $auth->followings()->count());
-        $this->assertTrue($response->json('data.is_following'));
 
         $response = $this->postJson(route('api.users.unfollow', $user));
         $this->assertEquals(0, $auth->followings()->count());

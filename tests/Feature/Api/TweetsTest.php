@@ -14,10 +14,10 @@ class TweetsTest extends TestCase
         $this->be($user = factory(User::class)->create(), 'api');
 
         $tweet = factory(Tweet::class)->create();
-        $this->postJson(route('api.users.follow', $tweet->user));
+
+        $user->follow($tweet->user);
 
         $response = $this->get(route('api.tweets.index'));
-
         $response->assertSuccessful();
 
         $response->assertJsonStructure([

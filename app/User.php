@@ -47,7 +47,9 @@ class User extends Authenticatable implements HasMedia
      */
     public function followings()
     {
-        return $this->belongsToMany(User::class, 'followings', 'user_id', 'follower_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'followings', 'user_id', 'follower_id')
+            ->using(Follow::class)
+            ->withTimestamps();
     }
 
     /**
@@ -57,7 +59,17 @@ class User extends Authenticatable implements HasMedia
      */
     public function followers()
     {
-        return $this->belongsToMany(User::class, 'followings', 'follower_id', 'user_id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'followings', 'follower_id', 'user_id')
+            ->using(Follow::class)
+            ->withTimestamps();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function followingTweets()
+    {
+        return $this->hasManyThrough(Tweet::class, Follow::class, 'user_id', 'user_id', 'id', 'follower_id');
     }
 
     /**
@@ -65,10 +77,32 @@ class User extends Authenticatable implements HasMedia
      *
      * @return bool
      */
-    public function isFollowing()
+    public function isFollowingByAuth()
     {
         $authId = auth('api')->id() ?: auth()->id();
 
         return $this->followers()->where('user_id', $authId)->exists();
+    }
+
+    /**
+     * Follow anther user.
+     *
+     * @param User $user
+     */
+    public function follow(User $user)
+    {
+        $this->followings()->syncWithoutDetaching($user);
+    }
+
+    /**
+     * Unfollow anther user.
+     *
+     * @param User $user
+     */
+    public function unfollow(User $user)
+    {
+        if ($follow = $this->followings()->where('follower_id', $user->id)->first()) {
+            $this->followings()->detach($user);
+        }
     }
 }

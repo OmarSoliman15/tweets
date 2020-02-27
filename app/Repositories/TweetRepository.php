@@ -1,5 +1,6 @@
 <?php namespace App\Repositories;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class TweetRepository extends Repository
@@ -11,9 +12,10 @@ class TweetRepository extends Repository
      */
     public function all()
     {
+        /** @var User $auth */
         $auth = auth('api')->user() ?: auth()->user();
 
-        return $this->model->whereIn('user_id', $auth->followings()->pluck('follower_id'))->latest()->paginate();
+        return $auth->followingTweets()->paginate();
     }
 
     /**

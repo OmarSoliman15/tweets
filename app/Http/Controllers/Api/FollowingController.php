@@ -27,7 +27,7 @@ class FollowingController extends Controller
     {
         $this->authorize('follow', $user);
 
-        auth()->user()->followings()->syncWithoutDetaching($user);
+        auth()->user()->follow($user);
 
         return new UserResource($user);
     }
@@ -43,9 +43,7 @@ class FollowingController extends Controller
     {
         $this->authorize('unfollow', $user);
 
-        if ($follow = auth()->user()->followings()->where('follower_id', $user->id)->first()) {
-               auth()->user()->followings()->detach($user);
-        }
+        auth()->user()->unfollow($user);
 
         return new UserResource($user);
     }

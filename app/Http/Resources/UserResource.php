@@ -9,7 +9,7 @@ class UserResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
@@ -20,7 +20,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'date_of_birth' => $this->date_of_birth,
             'age' => $this->age,
-            'is_following' => $this->isFollowing(),
+            'is_following' => $this->isFollowingByAuth(),
             'image' => asset($this->getFirstMediaUrl('images'))
         ];
     }
